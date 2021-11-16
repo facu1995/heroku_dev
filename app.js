@@ -14,8 +14,8 @@ let users = ["bart", "lisa", "homero", "marge"];
 
 app.use(cors());
 app.use(methodOverride());
-server.use(express.urlencoded({ extended: true }));
-server.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.get("/users", (req, res) => {
    res.send(users);
