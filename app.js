@@ -12,7 +12,7 @@ let port = process.env.PORT || 3000;
 
 let users = ["bart", "lisa", "homero", "marge"];
 
-//app.use(cors());
+app.use(cors()); // permite conectar con servidores distintas
 app.use(methodOverride());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
