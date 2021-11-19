@@ -1,14 +1,27 @@
-/* import methodOverride from "method-override";
-import cors from "cors";
-import express from "express"; */
 const methodOverride = require("method-override");
 const cors = require("cors");
 const express = require("express");
-//
+const multer = require("multer");
+const express = require("express");
+let { v4: uuid } = require("uuid"); //se usar para el hash
+const dayjs = require(" dayjs");
+
 const app = express();
 const log = console.log;
-
 let port = process.env.PORT || 3000;
+
+const multerConfig = multer.diskStorage({
+   destination: function (res, file, cb) {
+      cb(null, "./bucket")//Donde lo vamos a ubicar
+   },
+   filename: function (res, file, cb) {
+      let idImage = uuid().split("-")[0];
+      let day = dayjs().format('DD-MM-YYYY');
+      cb(null, `${day}.${idImage}.${file.originalname}`);
+   }
+});
+const multerMiddle = multer({ storage: multerConfig })
+
 
 app.use(cors()); // permite conectar con servidores distintas
 app.use(methodOverride());
@@ -83,3 +96,14 @@ app.put("/user/cambiar/", (req, res) => {
    })
    res.send("usuario ha sido modificado");
 })
+
+server.post("/registro/usuario", multerMiddle.single("imagefile"), (req, res) => {
+   if (req.file) {
+      const { name, email, pass } = req.body;
+      const foto = req.file;
+      users.push({ email, name, pass, foto });
+      res.send("Imagen guardada....");
+   }
+   else
+   res.send("Error en imagen");
+});
