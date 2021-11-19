@@ -26,19 +26,19 @@ let users = [
    { "email": "qux@qux.com", "name": "qux", "pass": "qux123" },
 ];
 
-server.get("/users", (req, res) => {
+app.get("/users", (req, res) => {
    res.send(users);
 });
 
-server.get("/reset", (req, res) => {
+app.get("/reset", (req, res) => {
    users = [];
 });
 
-server.get("/user/unmail/:email", (req, res) => {
+app.get("/user/unmail/:email", (req, res) => {
    res.send(users.filter(el => el.email == req.params.email));
 });
 
-server.get("/usersEmail/:email", (req, res) => {
+app.get("/usersEmail/:email", (req, res) => {
    let email = req.params.email;
    let arrayEmail = email.split(",");
    let resp = [];
@@ -52,22 +52,22 @@ server.get("/usersEmail/:email", (req, res) => {
    res.send(resp);
 });
 
-server.get("/user/name/", (req, res) => {
+app.get("/user/name/", (req, res) => {
    res.send(users.filter(el => (el.name === req.query.name)));
 });
 
 
-server.post("/user", (req, res) => {
+app.post("/user", (req, res) => {
    users.push({ email: req.body.email, name: req.body.nombre, pass: req.body.pass });
    res.send("usuario creado");
 });
 
-server.delete("/user/borrarUno/:email", (req, res) => {
+app.delete("/user/borrarUno/:email", (req, res) => {
    users = users.filter(el => el.email != req.params.email);
    res.send("usuario borrado");
 });
 
-server.delete("/user/borrarVarios/", (req, res) => {
+app.delete("/user/borrarVarios/", (req, res) => {
    let arrayEmail = req.query.email;
    arrayEmail.forEach(email => {
       users = users.filter((elemento) => elemento.email != email);
@@ -75,7 +75,7 @@ server.delete("/user/borrarVarios/", (req, res) => {
    res.send("Se eliminaron todos los usuarios con ese mail");
 });
 
-server.put("/user/cambiar/", (req, res) => {
+app.put("/user/cambiar/", (req, res) => {
    users = forEach((user, i) => {
       if (user.email == req.body.email) {
          users[i].email = req.body.nuevoEmail;
