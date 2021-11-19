@@ -2,9 +2,8 @@ const methodOverride = require("method-override");
 const cors = require("cors");
 const express = require("express");
 const multer = require("multer");
-const express = require("express");
 let { v4: uuid } = require("uuid"); //se usar para el hash
-const dayjs = require(" dayjs");
+const dayjs = require("dayjs");
 
 const app = express();
 const log = console.log;
@@ -30,7 +29,7 @@ app.use(express.json());
 
 
 app.listen(port, () => {
-   log("start server");
+   log("start server "+port);
 });
 
 let users = [
@@ -97,7 +96,7 @@ app.put("/user/cambiar/", (req, res) => {
    res.send("usuario ha sido modificado");
 })
 
-server.post("/registro/usuario", multerMiddle.single("imagefile"), (req, res) => {
+app.post("/registro/usuario", multerMiddle.single("imagefile"), (req, res) => {
    if (req.file) {
       const { name, email, pass } = req.body;
       const foto = req.file;
